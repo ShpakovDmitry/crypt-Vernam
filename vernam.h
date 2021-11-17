@@ -23,7 +23,8 @@ typedef struct {
 } VernamData;
 
 /* this method simply does (data ^ key) operation */
-void Vernam_crypt(VernamData* data);
+/* returns bytes encoded/decoded */
+size_t Vernam_crypt(VernamData* data);
 
 #ifdef __cplusplus
 }
