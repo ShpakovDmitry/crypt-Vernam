@@ -25,12 +25,14 @@ static bool isVernamDataCorrect(VernamData* data) {
 }
 
 /* straight forward Vernam cipher realisation */
-void Vernam_crypt(VernamData* data) {
+size_t Vernam_crypt(VernamData* data) {
     if ( !isVernamDataCorrect(data) ) {
-        return;
+        return 0;
     }
 
-    for (size_t i = 0; i < data->len; i++) {
+    size_t i;
+    for (i = 0; i < data->len; i++) {
         data->data[i] ^= data->key[i];
     }
+    return i;
 }
