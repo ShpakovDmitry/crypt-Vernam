@@ -1,38 +1,40 @@
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 #include <stdio.h>
 
-int main(int argc, char *argv[])
-{
-	FILE *destination;
-	FILE *source;
-	char c;
-	unsigned int i = 0;
-	unsigned int j;
-	unsigned int key_size = 0;
+bool isCorrectInputParameters(int argc, char** argv);
+
+bool isCorrectInputParameters(int argc, char** argv) {
+    bool res = true;
+
+    if ( argc != 4 ) {
+        printf("Usage: crypt [ source file ] [ destination file ] [ key ]\n");
+        res = false;
+    } else if ( ( strlen(argv[1]) == 0) || ( strlen(argv[2]) == 0 ) ) {
+        printf("Incorrect file name!\n");
+        res = false;
+    } else if ( strlen(argv[3] ) == 0 ) {
+        printf("Incorrect key!\n");
+        res = false;
+    }
+
+    return res;
+}
+
+int main(int argc, char *argv[]) {
+    FILE *destination;
+    FILE *source;
+    char c;
+    unsigned int i = 0;
+    unsigned int j;
+    unsigned int keySize = 0;
 	
-	if(argc != 4) // проверяем нужное количество аргументов командной строки
-	{
-		printf("Usage: crypt [ source file ] [ destination file ] [ key ]\n");
-		return -1;
-	}
-	
-	if( (argv[1][0] == '\0') || (argv[2][0] == '\0') )
-	{
-		printf("Incorrect file name!\n");
-		return -1;
-	}
-	
-	if(argv[3][0] == '\0')
-	{
-		printf("Incorrect key!\n");
-		return -1;
-	}
-	else
-	{
-		while(argv[3][key_size] != '\0')
-		{
-			key_size++;
-		}
-	}
+    if ( !isCorrectInputParameters(argc, argv)) {
+        return EXIT_FAILURE;
+    }
+
+    keySize = strlen(argv[3]);
 	
 	//-----
 	
@@ -96,7 +98,7 @@ int main(int argc, char *argv[])
 		c ^= argv[3][i];
 		
 		fprintf(destination,"%c", c);
-		if( (i++) > (key_size-1) )
+		if( (i++) > (keySize-1) )
 		{
 			i = 0;
 		}
@@ -161,7 +163,7 @@ int main(int argc, char *argv[])
 		c ^= argv[3][i];
 		
 		fprintf(destination,"%c", c);
-		if( (i++) > (key_size-1) )
+		if( (i++) > (keySize-1) )
 		{
 			i = 0;
 		}
